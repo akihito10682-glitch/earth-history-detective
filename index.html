@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>地球史探偵 ― 先カンブリア時代の調査報告書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3ede2; --paper2:#fbf8f2; --ink:#2a2420; --sub:#6d635a; --line:#d9cfbf;
+  --rust:#a8472a; --ok:#2f6b4f; --okl:#dcebe2; --ng:#a33a3a; --ngl:#f6dede;
+  --hadean:#b0503a; --archean:#a58439; --proter:#3b8a7a;
+  --p1:#a8472a; --p2:#2d6f8a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Zen Kaku Gothic New",sans-serif;-webkit-tap-highlight-color:transparent}
+body{min-height:100vh;background-image:radial-gradient(circle at 20% 0%,#fffaf0 0,transparent 50%),repeating-linear-gradient(0deg,transparent 0 31px,#e9e1d3 31px 32px)}
+body.battling{overflow:hidden}
+button{font-family:inherit;cursor:pointer;color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 18px 60px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+.seal{width:46px;height:46px;border:3px solid var(--rust);border-radius:50%;display:grid;place-items:center;color:var(--rust);font-family:"Zen Old Mincho",serif;font-weight:900;font-size:20px;transform:rotate(-8deg);flex:none}
+.brand h1{margin:0;font-family:"Zen Old Mincho",serif;font-size:22px;letter-spacing:.06em}
+.brand small{display:block;font-size:12px;color:var(--sub);letter-spacing:.1em}
+.chip{font-size:13px;color:var(--sub);background:var(--paper2);border:1px solid var(--line);border-radius:99px;padding:6px 12px}
+
+/* ---------- メニュー ---------- */
+.intro{background:var(--paper2);border:1px solid var(--line);border-radius:6px;padding:22px 24px;margin-bottom:18px;box-shadow:0 2px 0 #e3d9c8}
+.intro h2{margin:0 0 8px;font-family:"Zen Old Mincho",serif;font-size:22px}
+.intro p{margin:0;line-height:1.85;color:#433a33}
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.big2{grid-template-columns:1fr}}
+.bigbtn{background:#fff;border:2px solid var(--line);border-radius:10px;padding:26px 22px;text-align:left;display:flex;flex-direction:column;gap:8px;transition:transform .15s,box-shadow .15s}
+.bigbtn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(80,60,40,.14)}
+.bigbtn .em{font-size:40px}
+.bigbtn b{font-size:24px}
+.bigbtn span{color:var(--sub);line-height:1.6;font-size:14.5px}
+.bigbtn.vs{border-color:#c9b9a3;background:linear-gradient(135deg,#fff 0,#fff 55%,#f5e7df 55%,#f5e7df 100%)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.mode{background:#fff;border:1px solid var(--line);border-radius:6px;padding:18px;text-align:left;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;gap:6px;min-height:150px}
+.mode:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(80,60,40,.12)}
+.mode .no{font-family:"Zen Old Mincho",serif;color:var(--rust);font-size:13px;letter-spacing:.15em}
+.mode b{font-size:18px}
+.mode span{font-size:13.5px;color:var(--sub);line-height:1.6}
+.mode .prog{margin-top:auto;font-size:12px;color:var(--ok);font-weight:700}
+.secth{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.secth h2{margin:0;font-family:"Zen Old Mincho",serif;font-size:20px}
+
+/* ---------- 共通：問題部品 ---------- */
+.bar{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.bar .track{flex:1;height:8px;background:#e6dccb;border-radius:9px;overflow:hidden;min-width:80px}
+.bar .fill{height:100%;background:var(--rust);transition:width .3s}
+.bar .num{font-size:14px;font-weight:700;min-width:64px;text-align:right}
+.back{background:#fff;border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:13px;color:var(--sub)}
+.stats{margin-left:auto;font-weight:700;font-size:15px;display:flex;gap:14px;flex-wrap:wrap}
+.stats .st b{font-size:20px;color:var(--rust)}
+.qbox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start}
+@media(max-width:760px){.qbox{grid-template-columns:1fr}}
+.qbox.time{grid-template-columns:1fr}
+.file{background:#fff;border:1px solid var(--line);border-radius:4px;padding:20px;position:relative;box-shadow:4px 4px 0 #e2d7c4}
+.file::before{content:"";position:absolute;top:-10px;left:22px;width:90px;height:20px;background:#e9dcc3;border:1px solid var(--line);border-bottom:none;border-radius:5px 5px 0 0}
+.file .lbl{font-size:12px;letter-spacing:.2em;color:var(--rust);font-weight:700}
+.file .icon{width:100px;height:100px;margin:10px auto 6px;display:block}
+.file h3{margin:6px 0 4px;font-size:21px;text-align:center;line-height:1.5}
+.file.row,.prow{display:flex;align-items:center;gap:18px}
+.prow{margin-top:8px}
+.prow .icon{margin:0!important;width:84px!important;height:84px!important;flex:none}
+.prow h3{text-align:left!important;margin:0!important}
+.file.row .icon{margin:0;width:84px;height:84px;flex:none}
+.file.row h3{text-align:left;margin:4px 0 0}
+.q{font-weight:900;font-size:19px;margin:2px 0 12px}
+.opts{display:grid;gap:10px}
+.opt{background:#fff;border:2px solid var(--line);border-radius:8px;padding:13px 15px;font-size:16px;text-align:left;line-height:1.55;display:flex;gap:12px;align-items:center;transition:border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:var(--rust)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font-weight:900;font-size:14px}
+.opt svg{width:42px;height:42px;flex:none}
+.opt.right{border-color:var(--ok)!important;background:var(--okl)!important}
+.opt.wrong{border-color:var(--ng)!important;background:var(--ngl)!important}
+.opt:disabled{cursor:default}
+.why{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px;line-height:1.8;font-size:15px;display:none}
+.why.show{display:block;animation:up .25s ease}
+.why .res{font-weight:900;font-size:17px;margin-bottom:4px}
+.why .res.ok{color:var(--ok)} .why .res.ng{color:var(--ng)}
+.next{margin-top:12px;width:100%;background:var(--ink);color:#fff;border:none;border-radius:8px;padding:14px;font-size:16px;font-weight:700}
+@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.stamp{position:absolute;right:14px;top:14px;border:3px solid var(--ok);color:var(--ok);font-family:"Zen Old Mincho",serif;font-weight:900;padding:4px 10px;font-size:18px;transform:rotate(12deg) scale(2);opacity:0;border-radius:4px;letter-spacing:.1em;pointer-events:none}
+.stamp.on{animation:stamp .35s cubic-bezier(.3,1.6,.6,1) forwards}
+.stamp.ng{border-color:var(--ng);color:var(--ng)}
+@keyframes stamp{to{transform:rotate(12deg) scale(1);opacity:.9}}
+
+/* ---------- 年表（タイムライン） ---------- */
+.tl{--sh:42px;--sw:clamp(30px,6.5%,48px);--rg:48px;--bt:110px;--bh:16px;--fs:12px;
+  background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 5% 10px;margin-top:14px}
+.tl-track{position:relative;height:calc(var(--bt) + var(--bh) + 28px)}
+.tl-bar{position:absolute;left:0;right:0;top:var(--bt);height:var(--bh);border-radius:99px;overflow:hidden;display:flex}
+.tl-bar i{display:block;height:100%}
+.tl-tick{position:absolute;top:calc(var(--bt) + var(--bh) + 4px);transform:translateX(-50%);font-size:var(--fs);color:var(--sub);font-weight:700;white-space:nowrap}
+.tl-tick::before{content:"";position:absolute;left:50%;top:-6px;width:1px;height:5px;background:var(--sub)}
+.tl-unit{position:absolute;right:-4%;top:calc(var(--bt) - 1.6em);font-size:var(--fs);color:var(--sub)}
+.opt.slot{position:absolute;width:var(--sw);height:var(--sh);transform:translateX(-50%);padding:0;justify-content:center;font-weight:900;font-size:calc(var(--sh)*.45);border-width:3px;border-color:var(--ink);border-radius:8px;z-index:2}
+.opt.slot.r0{top:0}.opt.slot.r1{top:var(--rg)}
+.stem{position:absolute;width:2px;background:var(--ink);transform:translateX(-50%);opacity:.5}
+.stem.r0{top:var(--sh);height:calc(var(--bt) - var(--sh))}
+.stem.r1{top:calc(var(--rg) + var(--sh));height:calc(var(--bt) - var(--rg) - var(--sh))}
+.slot-age{position:absolute;top:calc(var(--bt) + var(--bh) + 22px);transform:translateX(-50%);background:var(--ok);color:#fff;font-size:var(--fs);font-weight:700;border-radius:4px;padding:2px 6px;white-space:nowrap;z-index:3}
+.hbar{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.hstat{font-size:13px;font-weight:700;color:var(--sub);text-align:right}
+.hstat.lock{color:var(--ng)}
+.hgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+@media(max-width:700px){.hgrid{grid-template-columns:1fr 1fr}}
+.hc{background:#fffdf4;border:1.5px dashed #e2b93b;border-radius:8px;padding:8px 10px;font-size:13.5px;line-height:1.5;min-height:64px}
+.hc b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#e2b93b;color:#fff;font-size:12px;margin-right:5px;vertical-align:1px}
+.hc .hp{margin-top:3px}
+.hc .hp i{font-style:normal;font-size:11.5px;font-weight:900;color:#a8831c;margin-right:4px}
+.hc .hq{color:#c4b48a}
+.hc .qm{color:var(--rust);font-weight:900}
+.hc .hp.open{animation:up .2s ease}
+.hc.open{border-style:solid;background:#fff8e1}
+.qbox.time .stamp{right:auto;left:55%}
+.noans .opt{opacity:.45;pointer-events:none}
+.hintbtn{align-self:flex-start;background:#fff8e1;border:2px solid #e2b93b;border-radius:99px;padding:9px 16px;font-size:15px;font-weight:700}
+.hintbtn:disabled{opacity:.45}
+.hint{background:#fffdf4;border:1px dashed #e2b93b;border-radius:8px;padding:9px 12px;font-size:14.5px;line-height:1.6;animation:up .2s ease}
+.hint .ht{display:inline-block;font-size:12px;font-weight:900;background:#e2b93b;color:#fff;border-radius:4px;padding:1px 7px;margin-right:6px}
+
+/* ---------- 結果・報告書 ---------- */
+.result{background:#fff;border:1px solid var(--line);border-radius:6px;padding:26px;text-align:center}
+.result .score{font-family:"Zen Old Mincho",serif;font-size:56px;font-weight:900;color:var(--rust);line-height:1}
+.result .score small{font-size:22px;color:var(--sub)}
+.miss{text-align:left;margin:18px auto 0;max-width:640px}
+.miss li{margin-bottom:8px;line-height:1.6}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+.btn{border:1px solid var(--ink);background:#fff;border-radius:8px;padding:12px 18px;font-size:15px;font-weight:700}
+.btn.primary{background:var(--ink);color:#fff}
+.report{background:#fff;border:1px solid var(--line);padding:28px 26px;box-shadow:4px 4px 0 #e2d7c4}
+.report h2{font-family:"Zen Old Mincho",serif;text-align:center;margin:0;font-size:26px;letter-spacing:.1em}
+.report .subt{text-align:center;color:var(--sub);font-size:13px;margin:4px 0 22px}
+.era-h{display:flex;align-items:center;gap:10px;margin:22px 0 10px;font-weight:900;color:#fff}
+.era-h span{padding:4px 14px;border-radius:4px}
+.era-h i{flex:1;height:2px;background:currentColor;opacity:.4}
+.entry{display:grid;grid-template-columns:30px 56px 1fr;gap:12px;align-items:start;padding:12px 0;border-bottom:1px dotted var(--line)}
+.entry .no{font-family:"Zen Old Mincho",serif;font-weight:900;font-size:20px;color:var(--rust);text-align:center;padding-top:10px}
+.entry svg{width:52px;height:52px}
+.entry .nm{font-weight:900;font-size:16.5px}
+.entry .ag{font-size:12.5px;font-weight:700;color:#fff;background:var(--sub);border-radius:3px;padding:1px 7px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.entry .ev{font-size:14px;margin-top:4px}
+.entry .ev::before{content:"🔍 証拠：";color:var(--rust);font-weight:700}
+.entry .nt{font-size:13.5px;color:var(--sub);margin-top:3px;line-height:1.6}
+.entry .done{font-size:11px;color:var(--ok);border:1.5px solid var(--ok);border-radius:3px;padding:0 5px;margin-left:6px;vertical-align:2px}
+@media(max-width:560px){.entry{grid-template-columns:24px 1fr}.entry svg{display:none}}
+.note{font-size:12px;color:var(--sub);text-align:center;margin-top:24px}
+
+/* ======================= 対戦モード ======================= */
+#battle{position:fixed;inset:0;z-index:50;display:none;background:var(--paper)}
+#battle.on{display:flex}
+.half{position:relative;overflow:hidden;flex:1 1 0}
+.inner{position:absolute;left:50%;top:50%;display:flex;flex-direction:column;padding:1.8vmin 2.2vmin;gap:1.4vmin;
+  background:var(--paper2)}
+@media (orientation:landscape){
+  #battle{flex-direction:row}
+  .half{width:50vw;height:100vh}
+  .half+.half{border-left:0.6vmin solid var(--ink)}
+  .inner{width:100vh;height:50vw}
+  .half.h1 .inner{transform:translate(-50%,-50%) rotate(90deg)}
+  .half.h2 .inner{transform:translate(-50%,-50%) rotate(-90deg)}
+}
+@media (orientation:portrait){
+  #battle{flex-direction:column}
+  .half{width:100vw;height:50vh}
+  .half+.half{border-top:0.6vmin solid var(--ink)}
+  .inner{width:100vw;height:50vh}
+  .half.h1 .inner{transform:translate(-50%,-50%) rotate(180deg)}
+  .half.h2 .inner{transform:translate(-50%,-50%)}
+}
+.h1 .inner{--pc:var(--p1)} .h2 .inner{--pc:var(--p2)}
+.bhead{display:flex;align-items:center;gap:2vmin;flex:none;font-size:2.7vmin;font-weight:900}
+.bhead .bback{background:#fff;border:0.3vmin solid var(--line);border-radius:99px;padding:0.9vmin 1.8vmin;font-size:2.3vmin;font-weight:700;color:var(--sub)}
+.bhead .pname{color:#fff;background:var(--pc);border-radius:1vmin;padding:0.6vmin 1.6vmin}
+.bhead .dots{letter-spacing:.3vmin;color:var(--pc);font-size:3.2vmin}
+.bhead .btime{margin-left:auto;font-variant-numeric:tabular-nums;font-size:3.2vmin}
+.bbody{flex:1;min-height:0;position:relative;display:flex;flex-direction:column}
+.cd{position:absolute;inset:0;display:grid;place-items:center;font-family:"Zen Old Mincho",serif;font-weight:900;font-size:22vmin;color:var(--pc);animation:cdpop .9s ease}
+.cd.go{font-size:12vmin}
+@keyframes cdpop{from{transform:scale(1.6);opacity:0}30%{transform:scale(1);opacity:1}}
+/* コンパクト版の問題部品（対戦で使用） */
+.compact .qbox{grid-template-columns:1fr;gap:1.4vmin;height:100%;display:flex;flex-direction:column;align-items:stretch}
+.compact .file{padding:1.4vmin 2vmin;box-shadow:none;border-radius:1vmin}
+.compact .file::before{display:none}
+.compact .file .lbl{font-size:1.9vmin}
+.compact .file.row,.compact .prow{gap:2vmin;margin-top:0.6vmin}
+.compact .stamp{display:none}
+.compact .qbox.time .file h3{font-size:2.6vmin}
+.compact .qbox.time .file.row .icon{width:7.5vmin;height:7.5vmin}
+.compact .prow .icon{width:9vmin!important;height:9vmin!important}
+.compact .file.row .icon,.compact .file .icon{width:9vmin;height:9vmin;margin:0}
+.compact .file h3{font-size:2.9vmin;margin:0.4vmin 0 0;line-height:1.4}
+.compact .file .ptxt{font-size:2.5vmin}
+.compact .q{font-size:2.6vmin;margin:0}
+.compact .opts{grid-template-columns:1fr 1fr;gap:1.2vmin;flex:1;min-height:0;grid-auto-rows:1fr}
+.compact .opt{font-size:2.35vmin;padding:1vmin 1.4vmin;gap:1vmin;border-width:0.35vmin;border-radius:1vmin;line-height:1.35}
+.compact .opt .k{width:3.4vmin;height:3.4vmin;font-size:2vmin}
+.compact .opt svg{width:5.5vmin;height:5.5vmin}
+.compact .tl{--sh:4.6vmin;--sw:5.8vmin;--rg:5.2vmin;--bt:10.4vmin;--bh:2vmin;--fs:1.9vmin;min-height:0;padding:1.6vmin 5% 1vmin;margin-top:0;flex:1;display:flex;align-items:center}
+.compact .tl-track{width:100%;height:calc(var(--bt) + var(--bh) + 5vmin)}
+.compact .tl-tick::before{top:-0.8vmin;height:0.6vmin}
+.compact .tl-track{height:calc(var(--bt) + var(--bh) + 4.4vmin)}
+.compact .hgrid{grid-template-columns:1fr 1fr;gap:0.9vmin;margin-top:0;flex:none}
+.compact .hc{font-size:1.8vmin;padding:0.5vmin 1vmin;min-height:0;height:10.4vmin;overflow:hidden;line-height:1.28;border-width:0.25vmin;border-radius:0.8vmin}
+.compact .hc .hp{margin-top:0.2vmin}
+.compact .hc .hp i{font-size:1.5vmin}
+.compact .hc b{width:2.5vmin;height:2.5vmin;font-size:1.5vmin}
+.compact .hintbtn{font-size:2.3vmin;padding:0.7vmin 1.8vmin;border-width:0.3vmin}
+.compact .hstat{font-size:2vmin}
+.compact .hbar{gap:0.4vmin}
+.bov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4vmin;text-align:center;padding:3vmin;z-index:5;border-radius:1vmin}
+.bov.ok{background:rgba(220,235,226,.96);color:var(--ok)}
+.bov.ng{background:rgba(246,222,222,.9);color:var(--ng)}
+.bov .bt{font-size:7vmin;font-weight:900;font-family:"Zen Old Mincho",serif}
+.bov .bx{font-size:2.6vmin;color:var(--ink);line-height:1.6;max-width:90%}
+.bres{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2vmin;text-align:center}
+.bres .big{font-family:"Zen Old Mincho",serif;font-weight:900;font-size:11vmin;color:var(--pc);line-height:1.1}
+.bres .big.lose{color:var(--sub);font-size:8vmin}
+.bres .sub{font-size:3.4vmin;font-weight:700}
+.bres .rb{display:flex;gap:2vmin;margin-top:1vmin}
+.bres .rb button{font-size:3vmin;font-weight:900;padding:1.6vmin 3.4vmin;border-radius:1.4vmin;border:0.4vmin solid var(--ink);background:#fff}
+.bres .rb button.pri{background:var(--ink);color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+  <header class="top">
+    <div class="brand" onclick="go('menu')">
+      <div class="seal">探</div>
+      <div><h1>地球史探偵</h1><small>先カンブリア時代 調査報告書</small></div>
+    </div>
+    <div class="chip" id="hdr">地学基礎 第5章</div>
+  </header>
+  <main id="app"></main>
+</div>
+<div id="battle"></div>
+
+<script>
+/* ================= 証拠イラスト（インラインSVG） ================= */
+const ICON = {
+impact:`<svg viewBox="0 0 64 64"><rect width="64" height="64" rx="6" fill="#1e1a2e"/><circle cx="40" cy="42" r="16" fill="#c4622d"/><path d="M28 34l-4-3M30 46l-5 2M36 28l-1-5" stroke="#ffd27a" stroke-width="2.5" stroke-linecap="round"/><circle cx="14" cy="14" r="5" fill="#8d7f72"/><path d="M18 18l9 9" stroke="#ffb35c" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="12" r="3" fill="#8d7f72"/><path d="M47 15l-4 5" stroke="#ffb35c" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+hadean:`<svg viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="40" rx="4" fill="#f6e6dc" stroke="#8a3b2c" stroke-width="2" stroke-dasharray="5 4"/><path d="M14 44c6-6 10 2 16-4s10 2 20-4" stroke="#d2552c" stroke-width="3" fill="none"/><text x="32" y="36" font-size="20" font-weight="900" text-anchor="middle" fill="#8a3b2c">?</text></svg>`,
+atmos:`<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" fill="#e9b872" opacity=".45"/><circle cx="32" cy="32" r="20" fill="#7a3e2a"/><g fill="#f3e3c7" opacity=".9"><ellipse cx="25" cy="26" rx="12" ry="3.5"/><ellipse cx="38" cy="37" rx="13" ry="3.5"/></g><text x="32" y="61" font-size="9" font-weight="900" text-anchor="middle" fill="#7a3e2a">H₂O CO₂</text></svg>`,
+acasta:`<svg viewBox="0 0 64 64"><path d="M6 46 14 16h38l6 30-10 8H14z" fill="#b9b1a8"/><g fill="none" stroke-width="3"><path d="M10 24c10-4 16 4 26 0s14 2 18 0" stroke="#e7d2c8"/><path d="M9 32c10-4 16 4 26 0s14 2 20 0" stroke="#5e5650"/><path d="M8 40c10-4 16 4 26 0s14 2 22 0" stroke="#e7d2c8"/></g></svg>`,
+pillow:`<svg viewBox="0 0 64 64"><rect width="64" height="64" rx="6" fill="#d7e8ee"/><g fill="#4a4440" stroke="#2a2420" stroke-width="1.5"><ellipse cx="18" cy="48" rx="13" ry="8"/><ellipse cx="44" cy="49" rx="14" ry="8"/><ellipse cx="30" cy="34" rx="13" ry="8"/><ellipse cx="50" cy="31" rx="9" ry="6"/><ellipse cx="22" cy="20" rx="10" ry="6"/></g><g fill="none" stroke="#8b847c" stroke-width="1.2"><ellipse cx="18" cy="48" rx="8" ry="4"/><ellipse cx="44" cy="49" rx="9" ry="4"/><ellipse cx="30" cy="34" rx="8" ry="4"/></g></svg>`,
+dissolve:`<svg viewBox="0 0 64 64"><rect width="64" height="64" rx="6" fill="#f1e6d0"/><rect x="4" y="30" width="56" height="30" fill="#4f93c4"/><path d="M4 30q7-4 14 0t14 0 14 0 14 0" fill="#4f93c4"/><g fill="#fff" opacity=".85"><circle cx="18" cy="44" r="3"/><circle cx="34" cy="50" r="2.5"/><circle cx="46" cy="40" r="3"/></g><g font-size="8" font-weight="900" fill="#7a5a3a"><text x="8" y="16">CO₂</text><text x="36" y="22">CO₂</text></g><path d="M18 19v8M44 25v4" stroke="#7a5a3a" stroke-width="2" stroke-linecap="round"/></svg>`,
+chert:`<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27" fill="#efe9df" stroke="#6d635a" stroke-width="2"/><path d="M14 38c6-10 10 2 14-8s8 4 10-4 8 2 12-6" fill="none" stroke="#2a2420" stroke-width="3.5" stroke-linecap="round"/><path d="M20 46c4-4 6 0 9-3" fill="none" stroke="#2a2420" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+stroma:`<svg viewBox="0 0 64 64"><rect x="4" y="50" width="56" height="8" fill="#b7a890"/><g fill="none" stroke-width="3"><path d="M10 52c0-26 44-26 44 0" stroke="#7a6a52"/><path d="M15 52c0-19 34-19 34 0" stroke="#c9b897"/><path d="M20 52c0-13 24-13 24 0" stroke="#7a6a52"/><path d="M25 52c0-7 14-7 14 0" stroke="#c9b897"/></g><circle cx="52" cy="12" r="6" fill="#f2c14e"/></svg>`,
+o2graph:`<svg viewBox="0 0 64 64"><rect width="64" height="64" rx="6" fill="#fff" stroke="#d9cfbf"/><path d="M10 8v46h46" stroke="#6d635a" stroke-width="2" fill="none"/><path d="M12 50h18q4 0 6-10t6-12h12" stroke="#3aa6c0" stroke-width="3.5" fill="none"/><text x="16" y="20" font-size="10" font-weight="900" fill="#3aa6c0">O₂</text></svg>`,
+bif:`<svg viewBox="0 0 64 64"><rect x="6" y="8" width="52" height="48" rx="3" fill="#8f8a85"/><g fill="#b23b2a"><path d="M6 14c14-3 30 3 52-1v6c-20 4-36-2-52 1z"/><path d="M6 28c16-2 30 3 52 0v5c-20 3-34-2-52 0z"/><path d="M6 41c14-3 32 3 52-1v6c-18 4-36-2-52 1z"/></g></svg>`,
+breath:`<svg viewBox="0 0 64 64"><rect width="64" height="64" rx="6" fill="#e9f3ee"/><ellipse cx="32" cy="34" rx="20" ry="16" fill="#bfe0cc" stroke="#2f6b4f" stroke-width="2.5"/><circle cx="28" cy="32" r="4" fill="#2f6b4f"/><path d="M44 16l-6 8M52 22l-8 5" stroke="#3aa6c0" stroke-width="2.5" stroke-linecap="round"/><text x="46" y="14" font-size="9" font-weight="900" fill="#3aa6c0">O₂</text></svg>`,
+glacial:`<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="#e8f2f7" stroke="#7aa6bd" stroke-width="2"/><path d="M6 32h52" stroke="#a8472a" stroke-width="2" stroke-dasharray="4 3"/><path d="M14 22l6 6-4 6 8 4" stroke="#7aa6bd" stroke-width="2" fill="none"/><path d="M40 26l6 4-2 8 6 4" stroke="#7aa6bd" stroke-width="2" fill="none"/><text x="32" y="50" font-size="9" font-weight="700" text-anchor="middle" fill="#a8472a">赤道</text></svg>`,
+grypania:`<svg viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="6" fill="#ece5d8"/><path d="M32 32m-4 0a4 4 0 1 1 8 0a9 9 0 1 1-18 0a14 14 0 1 1 28 0a19 19 0 1 1-38 0" fill="none" stroke="#3d342d" stroke-width="3.5" stroke-linecap="round"/></svg>`,
+drop:`<svg viewBox="0 0 64 64"><rect x="4" y="6" width="56" height="52" fill="#a99f92"/><g stroke="#8b8174" stroke-width="2"><path d="M4 16h56M4 26h56M4 36h22M42 36h18M4 46h56"/></g><path d="M26 30c4-6 14-5 16 2s-2 12-9 12-10-6-7-14z" fill="#4c4540" stroke="#2a2420" stroke-width="1.5"/></svg>`,
+ediacara:`<svg viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="6" fill="#e3d6bf"/><ellipse cx="32" cy="32" rx="16" ry="23" fill="#c9b48e" stroke="#7a6234" stroke-width="2"/><path d="M32 10v44" stroke="#7a6234" stroke-width="1.8"/><g stroke="#7a6234" stroke-width="1.3" fill="none"><path d="M32 16q-10 0-13 4M32 22q-12 0-15 5M32 28q-13 0-16 5M32 34q-13 0-16 5M32 40q-12 0-14 5M32 46q-9 0-11 3"/><path d="M32 16q10 0 13 4M32 22q12 0 15 5M32 28q13 0 16 5M32 34q13 0 16 5M32 40q12 0 14 5M32 46q9 0 11 3"/></g></svg>`
+};
+
+/* ================= 内部データ（年表） =================
+   name/evi/note … 先生作成の内部データ
+   age  … 正解のあとに表示する年代
+   pos  … 年表上に枠を置く位置（億年前）。年代が書かれていないものは前後関係から置いた目安
+   eraHint … ヒント「何時代か」で表示する文
+   group … 同じgroupどうしは、鑑定・探すの選択肢に一緒に出さない（どちらも正解に見えるため）  */
+const ERA = {
+  "冥王代":{c:"var(--hadean)",r:"46億〜40億年前"},
+  "太古代":{c:"var(--archean)",r:"40億〜25億年前"},
+  "原生代":{c:"var(--proter)",r:"25億〜5億3900万年前"}
+};
+const EV = [
+ {id:1,short:"微惑星の衝突",hev:"直接の岩石は残っていない（地球誕生の初期）",icon:"impact",era:"冥王代",pos:46,age:"約46億年前",
+  name:"微惑星や原始惑星の衝突",
+  evi:"（直接の岩石は残っていない）",
+  note:"約46億年前の地球誕生初期におきた現象。",
+  eraHint:"先カンブリア時代の冥王代（地球が誕生したころ）",group:"hadean"},
+ {id:2,short:"マグマオーシャン",hev:"冥王代の岩石がほとんど残っていない",icon:"hadean",era:"冥王代",pos:45.3,age:"46億〜40億年前（冥王代）",
+  name:"マグマオーシャンに覆われる",
+  evi:"冥王代（46億〜40億年前）の岩石がほとんど残されていないこと",
+  note:"衝突熱などにより、地表がマグマの海に覆われていた。",
+  eraHint:"先カンブリア時代の冥王代",group:"hadean"},
+ {id:3,short:"原始大気",hev:"金星・火星の大気組成（CO₂が90%以上）",icon:"atmos",era:"冥王代",pos:44.6,age:"約46億年前（地球誕生直後）",
+  name:"水蒸気と二酸化炭素の大気ができる",
+  evi:"現在の金星や火星の大気組成（二酸化炭素が90%以上）からの推測",
+  note:"高温で水が液体にならず、酸素はほとんど含まれず、気圧は現在の数百倍と推定。",
+  eraHint:"先カンブリア時代の冥王代",group:"co2"},
+ {id:4,short:"地殻の形成",hev:"約40億年前のアカスタ片麻岩（カナダ北部）",icon:"acasta",era:"冥王代",pos:40,age:"約40億年前",
+  name:"地表が冷えて岩石（地殻）ができる",
+  evi:"カナダ北部で発見された約40億年前のアカスタ片麻岩（図25）",
+  note:"地表が冷却されて最初の固い岩石（地殻）が形成された。",
+  eraHint:"先カンブリア時代の冥王代のおわり（太古代との境目のころ）"},
+ {id:5,short:"原始海洋の誕生",hev:"約38億年前の枕状溶岩（グリーンランド南部）",icon:"pillow",era:"太古代",pos:38,age:"約38億年前",
+  name:"地表が冷えて水蒸気が雨となり原始海洋ができる",
+  evi:"グリーンランド南部で発見された約38億年前の枕状溶岩（図26）",
+  note:"太古代（40億〜25億年前）の初めには原始海洋が形成されていた。",
+  eraHint:"先カンブリア時代の太古代のはじめ"},
+ {id:6,short:"CO₂が海に溶ける",hev:"水とCO₂の溶解実験・金星や火星との比較",icon:"dissolve",era:"太古代",pos:37,age:"約38億年前以降（海洋ができたあと）",
+  name:"二酸化炭素が海洋に溶け、大気中から取り除かれていく",
+  evi:"水と二酸化炭素の溶解実験（TRY）や金星・火星との比較",
+  note:"雨によって原始海洋ができたことで、大気の主成分だった二酸化炭素が海水に溶けて減少した。",
+  eraHint:"先カンブリア時代の太古代",group:"co2"},
+ {id:7,short:"原核生物の出現",hev:"35億年前のチャート層の化石（西オーストラリア）",icon:"chert",era:"太古代",pos:35,age:"約35億年前",
+  name:"原核生物が現れる",
+  evi:"西オーストラリアの35億年前のチャート層から発見された生物の形態を示す化石（図27）",
+  note:"核を持たない原核生物。当時は酸素がほぼないため、酸素を使わずにエネルギーを得ていた。熱水噴出孔が誕生の場の候補。",
+  eraHint:"先カンブリア時代の太古代"},
+ {id:8,short:"シアノバクテリアの光合成",hev:"約27億〜25億年前以降のストロマトライト",icon:"stroma",era:"太古代",pos:26.2,age:"約27億〜25億年前以降",
+  name:"シアノバクテリアが光合成を行う",
+  evi:"約27億〜25億年前以降の地層から発見される石灰質の構造物「ストロマトライト」（図28）",
+  note:"光合成を行う微生物（シアノバクテリア）の働きによってつくられた。",
+  eraHint:"先カンブリア時代の太古代のおわり"},
+ {id:9,short:"酸素濃度の上昇",hev:"大気中の酸素濃度の変化グラフ（図29）",icon:"o2graph",era:"原生代",pos:25.2,age:"約25億年前ごろから（原生代）",
+  name:"海洋内・大気中の酸素の濃度が上昇する",
+  evi:"大気中の酸素濃度の変化グラフ（図29）の推定データ",
+  note:"シアノバクテリアの光合成活動により、海洋や大気の酸素濃度が徐々に増加した。",
+  eraHint:"先カンブリア時代の太古代のおわり〜原生代のはじめ"},
+ {id:10,short:"縞状鉄鉱層",hev:"25億〜20億年前の縞状鉄鉱層",icon:"bif",era:"原生代",pos:24.2,age:"25億〜20億年前",
+  name:"海洋の酸素と鉄が結びつき、縞状鉄鉱層ができる",
+  evi:"西オーストラリアなどの25億〜20億年前の地層に見られる「縞状鉄鉱層」（図30）",
+  note:"海水中の鉄と酸素が結合して酸化鉄となり海底に沈殿。現在の重要な鉄鉱資源となっている。",
+  eraHint:"先カンブリア時代の原生代のはじめ"},
+ {id:11,short:"呼吸する生物の出現",hev:"酸素濃度が増えたあとの地層の生物の変化",icon:"breath",era:"原生代",pos:23.6,age:"原生代のはじめ（酸素が増えたあと）",
+  name:"有害であった酸素を用いて呼吸する生物が現れる",
+  evi:"酸素濃度増加後の地層における生物の変遷",
+  note:"強い酸化作用を持つ酸素は初期の生物に有害だったが、身を守る仕組みを持ち、酸素で呼吸してエネルギーを得る生物が増加した。",
+  eraHint:"先カンブリア時代の原生代のはじめ"},
+ {id:12,short:"1回目の全球凍結",hev:"約23億年前の赤道付近の地層の氷河性堆積物",icon:"glacial",era:"原生代",pos:23,age:"約23億年前",
+  name:"1回目の全球凍結",
+  evi:"原生代初め（約23億年前）の赤道付近の地層で見つかる氷河性の堆積物",
+  note:"温室効果ガスの減少などにより、地球全体が氷で覆われる「全球凍結（スノーボールアース）」が発生した。",
+  eraHint:"先カンブリア時代の原生代のはじめ"},
+ {id:13,short:"真核生物・多細胞生物",hev:"約19億年前のグリパニアの化石",icon:"grypania",era:"原生代",pos:19,age:"約19億年前（原生代前期）",
+  name:"全球凍結が終了し、真核生物・多細胞生物へと進化する",
+  evi:"約19億年前の地層から発見されるリボン状の真核生物の集合体「グリパニア」（図32）",
+  note:"火山活動で放出された二酸化炭素の温室効果により全球凍結が終了。その後、真核生物や多細胞生物へ進化した。",
+  eraHint:"先カンブリア時代の原生代の前期"},
+ {id:14,short:"2回目の全球凍結",hev:"原生代末の地層のドロップストーン",icon:"drop",era:"原生代",pos:6.8,age:"約7億年前・約6億5000万年前",
+  name:"2回目の全球凍結",
+  evi:"原生代末（約7億年前・約6億5000万年前）の地層に見られる「ドロップストーン（礫岩）」（図31）",
+  note:"氷河が海に流れ込み、とけることで海底に岩石が落下・堆積した。生物の多くが絶滅した。",
+  eraHint:"先カンブリア時代の原生代のおわり"},
+ {id:15,short:"エディアカラ生物群",hev:"約5億5000万年前の砂岩層の化石（エディアカラ）",icon:"ediacara",era:"原生代",pos:5.5,age:"約5億5000万年前",
+  name:"全球凍結が終了し、エディアカラ生物群が現れる",
+  evi:"南オーストラリアのエディアカラなどの約5億5000万年前の砂岩層から大量発見された化石（図33・34）",
+  note:"殻や骨格を持たず、やわらかくて扁平な形をしている大型の多細胞生物群（ディキンソニアやスプリギナなど）。",
+  eraHint:"先カンブリア時代の原生代のおわり"}
+];
+const byId = id => EV.find(e=>e.id===+id);
+const T0=46, T1=5.39;
+const MIN_GAP = 1.99;  // 年表の枠どうしの最小間隔（億年）。これより近いイベントは同じ問題の候補にしない
+
+/* ================= 共通ユーティリティ ================= */
+const $ = s=>document.querySelector(s);
+const shuffle = a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const app = $("#app");
+let solved = new Set();
+try{ solved = new Set(JSON.parse(localStorage.getItem("chikyuDetective2")||"[]")); }catch(e){}
+const save=()=>{try{localStorage.setItem("chikyuDetective2",JSON.stringify([...solved]))}catch(e){}};
+// ヒント用：年代と時代名を伏せる
+const mask = s => s.replace(/\d+(\.\d+)?\s*(億|万)/g,"〇$2").replace(/(冥王|太古|原生)代/g,"〇〇代");
+
+/* ================= 問題をつくる（ひとり用・対戦で共通） =================
+   type: "e2i" 証拠→できごと / "i2e" できごと→証拠 / "time" いつのできごと？  */
+function buildQ(type,id){
+  const ev = byId(id);
+  if(type==="time"){
+    const ok = x => Math.abs(x.pos-ev.pos)>=MIN_GAP;
+    let picked=[];
+    for(const c of shuffle(EV.filter(x=>x.id!==ev.id && ok(x)))){
+      if(picked.every(p=>Math.abs(p.pos-c.pos)>=MIN_GAP)) picked.push(c);
+      if(picked.length===3) break;
+    }
+    const slots=[ev,...picked].sort((a,b)=>b.pos-a.pos).map(e=>e.id);
+    return {type,id:ev.id,opts:slots};
+  }
+  const pool = EV.filter(x=>x.id!==ev.id && !(ev.group && x.group===ev.group));
+  return {type,id:ev.id,opts:shuffle([ev,...shuffle(pool).slice(0,3)]).map(e=>e.id)};
+}
+const X = p => ((T0-p)/(T0-T1))*100;
+function timelineHTML(q){
+  const slots=q.opts.map(byId);
+  const bands=[[46,40,"var(--hadean)"],[40,25,"var(--archean)"],[25,T1,"var(--proter)"]]
+    .map(([a,b,c])=>`<i style="width:${X(b)-X(a)}%;background:${c}"></i>`).join("");
+  const ticks=[46,40,35,30,25,20,15,10,5.39].map(t=>`<span class="tl-tick" style="left:${X(t)}%">${t}</span>`).join("");
+  const sl=slots.map((e,k)=>{const r=k%2;return `<i class="stem r${r}" style="left:${X(e.pos)}%"></i><button class="opt slot r${r}" data-id="${e.id}" style="left:${X(e.pos)}%">${"ABCD"[k]}</button>`}).join("");
+  return `<div class="tl"><div class="tl-track">${sl}<div class="tl-bar">${bands}</div>${ticks}<span class="tl-unit">（億年前）</span></div></div>`;
+}
+/* 問題の表示部品：root に描き、選択肢を押すと onPick(id, btn) を呼ぶ */
+function renderQ(root,q,onPick){
+  const ev=byId(q.id);
+  let html="";
+  if(q.type==="e2i"){
+    html=`<div class="qbox"><div class="file"><div class="stamp">鑑定OK</div><div class="lbl">EVIDENCE ― 証拠</div>
+      <div class="prow"><div class="icon">${ICON[ev.icon]}</div><h3 class="ptxt">${ev.evi}</h3></div></div>
+      <div style="display:flex;flex-direction:column;gap:inherit;min-height:0;flex:1"><p class="q">この証拠から推定される「できごと」は？</p><div class="opts">${
+      q.opts.map((id,k)=>`<button class="opt" data-id="${id}"><span class="k">${"ABCD"[k]}</span><span>${byId(id).name}</span></button>`).join("")}</div></div></div>`;
+  }else if(q.type==="i2e"){
+    html=`<div class="qbox"><div class="file"><div class="stamp">発見！</div><div class="lbl">EVENT ― できごと</div><h3 style="margin-top:12px">「${ev.name}」</h3></div>
+      <div style="display:flex;flex-direction:column;gap:inherit;min-height:0;flex:1"><p class="q">このできごとの決め手になった「証拠」は？</p><div class="opts">${
+      q.opts.map(id=>{const e=byId(id);return `<button class="opt" data-id="${id}">${ICON[e.icon]}<span>${e.evi}</span></button>`}).join("")}</div></div></div>`;
+  }else{
+    html=`<div class="qbox time"><div class="file row"><div class="stamp">正解</div><div class="icon">${ICON[ev.icon]}</div><div><div class="lbl">このできごとは、年表のどこ？</div><h3>${ev.name}</h3></div>
+      <div class="hbar"><button class="hintbtn">💡 ヒント</button><span class="hstat"></span></div></div>${timelineHTML(q)}
+      <div class="hgrid">${q.opts.map((id,k)=>`<div class="hc" data-k="${k}"><b>${"ABCD"[k]}</b><div class="hp h1"><i>前後</i><span class="hq">？</span></div><div class="hp h2"><i>証拠</i><span class="hq">？</span></div></div>`).join("")}</div></div>`;
+  }
+  root.innerHTML=html;
+  q.hUsed=0; q.ord1=shuffle([0,1,2,3]); q.ord2=shuffle([0,1,2,3]);
+  root.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{ if(!b.disabled) onPick(+b.dataset.id,b); }));
+}
+const isRight=(q,id)=>id===q.id;
+function markRight(root,q){
+  root.querySelectorAll(".opt").forEach(b=>{b.disabled=true; if(+b.dataset.id===q.id)b.classList.add("right");});
+  if(q.type==="time"){ const ev=byId(q.id); const t=root.querySelector(".tl-track"); if(t) t.insertAdjacentHTML("beforeend",`<span class="slot-age" style="left:${X(ev.pos)}%">${ev.age}</span>`); }
+}
+function explain(q){
+  const ev=byId(q.id);
+  if(q.type==="time") return `<b>${ev.name}</b> は <b>${ev.age}</b>（${ev.era}）<br>${ev.note}`;
+  return `<b>${ev.evi}</b><br>→ <b>${ev.name}</b>（${ev.age}）<br>${ev.note}`;
+}
+/* 年表問題のヒント（4段階）
+   ヒント1＝その枠のできごとの「1つ前」と「1つ後」のできごと／ヒント2＝その枠に入る証拠
+   1回目：ヒント1をA〜Dからランダムに2枠　2回目：ヒント1の残り2枠
+   3回目：ヒント2をランダムに2枠　　　　　4回目：ヒント2の残り2枠  */
+const HINT_MAX=4, PT_MAX=5;
+function hint1Text(ev){
+  const i=EV.indexOf(ev), pv=EV[i-1], nx=EV[i+1];
+  return `${pv?pv.short:"（地球の誕生）"} → <span class="qm">？</span> → ${nx?nx.short:"（先カンブリア時代の終わり）"}`;
+}
+function openHint(root,q,k,kind){
+  const ev=byId(q.opts[k]), el=root.querySelector(`.hc[data-k="${k}"] .h${kind}`);
+  if(!el||el.classList.contains("open")) return;
+  el.classList.add("open"); el.closest(".hc").classList.add("open"); el.querySelector("span").className="";
+  el.querySelector("span").innerHTML= kind===1?hint1Text(ev):ev.hev;
+}
+function revealHint(root,q){
+  if(q.hUsed>=HINT_MAX) return false;
+  const st=q.hUsed++, kind=st<2?1:2, ord=kind===1?q.ord1:q.ord2, j=(st%2)*2;
+  openHint(root,q,ord[j],kind); openHint(root,q,ord[j+1],kind);
+  return true;
+}
+const hintLabel = q => q.hUsed<2?"ヒント1：前後のできごと":"ヒント2：証拠";
+function openAllHints(root,q){ for(let k=0;k<4;k++){openHint(root,q,k,1);openHint(root,q,k,2);} }
+const ptsFor = q => PT_MAX - q.hUsed;
+
+/* ================= 画面切り替え ================= */
+let S={};
+function go(v,opt){ window.scrollTo({top:0}); ({menu,practice,quiz,timeQuiz,report})[v](opt); }
+
+function menu(){
+  $("#hdr").textContent="地学基礎 第5章";
+  app.innerHTML=`
+  <section class="intro"><h2>ようこそ、地球史探偵へ。</h2>
+  <p>46億年前から5億3900万年前までの「先カンブリア時代」には、だれも立ち会っていません。それでも私たちは、岩石や地層、化石といった<b>現代に残る証拠</b>から当時のようすを推定してきました。<br>証拠を鑑定し、できごとを年表に位置づけて、地球の歴史の<b>調査報告書</b>を完成させましょう。</p></section>
+  <div class="big2">
+    <button class="bigbtn" onclick="go('practice')"><div class="em">🔍</div><b>ひとりで練習</b><span>証拠の鑑定、証拠さがし、年表クイズ、調査報告書。</span></button>
+    <button class="bigbtn vs" onclick="startBattle()"><div class="em">⚔️</div><b>対戦モード</b><span>タブレットを机に置いて2人で向かい合って対戦。先に3問正解した方の勝ち！</span></button>
+  </div>
+  <p class="note">内容は教科書 地学基礎 p.156〜159（先カンブリア時代①②）にもとづいています。</p>`;
+}
+function practice(){
+  $("#hdr").textContent="ひとりで練習";
+  const n=EV.filter(e=>solved.has(e.id)).length;
+  app.innerHTML=`<div class="bar"><button class="back" onclick="go('menu')">← メニュー</button></div>
+  <div class="secth"><span class="seal" style="width:36px;height:36px;font-size:16px">練</span><h2>ひとりで練習</h2></div>
+  <div class="modes">
+    <button class="mode" onclick="go('quiz',{type:'e2i'})"><span class="no">CASE 01</span><b>🔍 証拠を鑑定する</b><span>証拠を見て、どんな「できごと」が推定できるかを答える。<br>証拠 → できごと</span><span class="prog">鑑定済み ${n} / ${EV.length}</span></button>
+    <button class="mode" onclick="go('quiz',{type:'i2e'})"><span class="no">CASE 02</span><b>🧩 証拠を探す</b><span>できごとを見て、決め手になった「証拠」を選ぶ。<br>できごと → 証拠</span></button>
+    <button class="mode" onclick="go('timeQuiz')"><span class="no">CASE 03</span><b>📅 いつのできごと？</b><span>できごとが年表のどこに入るかを4つの枠から選ぶ。ヒントあり。連続で何問でも。</span></button>
+    <button class="mode" onclick="go('report')"><span class="no">FILE</span><b>📖 調査報告書を読む</b><span>15のできごとと証拠・補足の年表（まとめ）。</span></button>
+  </div>`;
+}
+
+/* ---------- CASE01・02：15問を順番に ---------- */
+function quiz(opt){
+  const type=opt.type;
+  const ids = opt.list || shuffle(EV.map(e=>e.id));
+  S={type,ids,i:0,score:0,miss:[]};
+  $("#hdr").textContent = type==="e2i"?"CASE 01 証拠を鑑定する":"CASE 02 証拠を探す";
+  quizStep();
+}
+function quizStep(){
+  const total=S.ids.length, q=buildQ(S.type,S.ids[S.i]);
+  app.innerHTML=`<div class="bar"><button class="back" onclick="go('practice')">← 練習メニュー</button><div class="track"><div class="fill" style="width:${S.i/total*100}%"></div></div><div class="num">${S.i+1} / ${total}</div></div><div id="qroot"></div><div class="why" id="why"></div>`;
+  const root=$("#qroot");
+  renderQ(root,q,(id,btn)=>{
+    const ok=isRight(q,id); markRight(root,q);
+    const st=root.querySelector(".stamp");
+    if(ok){ S.score++; if(S.type==="e2i"){solved.add(q.id);save();} }
+    else { btn.classList.add("wrong"); S.miss.push(q.id); st.textContent="要再調査"; st.classList.add("ng"); }
+    st.classList.add("on");
+    const w=$("#why");
+    w.innerHTML=`<div class="res ${ok?"ok":"ng"}">${ok?"◎ 正解！":"× ざんねん…"}</div>${explain(q)}<button class="next" id="nx">${S.i+1<total?"次の問題へ →":"結果を見る"}</button>`;
+    w.classList.add("show");
+    $("#nx").onclick=()=>{ S.i++; S.i<total?quizStep():quizEnd(); };
+    w.scrollIntoView({behavior:"smooth",block:"nearest"});
+  });
+}
+function quizEnd(){
+  const t=S.ids.length;
+  const msg=S.score===t?"完璧な鑑定です。報告書に太鼓判！":S.score>=t*0.7?"なかなかの腕前。あと少し！":"証拠をもう一度よく見てみよう。";
+  app.innerHTML=`<div class="result"><div style="color:var(--rust);letter-spacing:.2em;font-weight:700;font-size:12px">RESULT</div>
+   <div class="score">${S.score}<small> / ${t}</small></div><p>${msg}</p>
+   ${S.miss.length?`<ol class="miss">${S.miss.map(id=>{const e=byId(id);return `<li><b>${e.evi}</b><br>→ ${e.name}（${e.age}）</li>`}).join("")}</ol>`:""}
+   <div class="btns">${S.miss.length?`<button class="btn primary" onclick='go("quiz",{type:"${S.type}",list:${JSON.stringify(S.miss)}})'>まちがえた問題だけ再調査</button>`:""}
+   <button class="btn" onclick="go('quiz',{type:'${S.type}'})">もう一度</button>
+   <button class="btn" onclick="go('timeQuiz')">いつのできごと？ →</button>
+   <button class="btn" onclick="go('practice')">練習メニュー</button></div></div>`;
+}
+
+/* ---------- CASE03：いつのできごと？（連続） ----------
+   得点：ヒントなしで正解5点。ヒントを1つ開くごとに満点が1点下がる（最低1点）。不正解は0点 */
+let TQ={n:0,ok:0,streak:0,best:0,pts:0,bag:[],last:null};
+function timeQuiz(){
+  $("#hdr").textContent="CASE 03 いつのできごと？";
+  if(!TQ.bag.length) TQ.bag=shuffle(EV.map(e=>e.id)).filter(id=>id!==TQ.last);
+  const id=TQ.bag.pop(); TQ.last=id;
+  const q=buildQ("time",id), ev=byId(id);
+  let answered=false;
+  app.innerHTML=`<div class="bar"><button class="back" onclick="go('practice')">← 練習メニュー</button>
+    <div class="stats"><span class="st">得点 <b>${TQ.pts}</b> / ${TQ.n*PT_MAX}</span><span class="st"><b>${TQ.n}</b> 問中 <b>${TQ.ok}</b> 問正解</span><span class="st">連続正解 <b>${TQ.streak}</b></span><span class="st" style="color:var(--sub)">最高 ${TQ.best}</span></div></div>
+    <div id="qroot"></div><div class="why" id="why"></div>`;
+  const root=$("#qroot");
+  renderQ(root,q,(pid,btn)=>{
+    if(answered)return; answered=true;
+    const ok=isRight(q,pid); markRight(root,q);
+    const got= ok?ptsFor(q):0;
+    TQ.n++; TQ.pts+=got; if(ok){TQ.ok++;TQ.streak++;TQ.best=Math.max(TQ.best,TQ.streak)} else {TQ.streak=0; btn.classList.add("wrong")}
+    const st=root.querySelector(".stamp"); if(!ok){st.textContent="ざんねん";st.classList.add("ng")} st.classList.add("on");
+    hb.disabled=true;
+    // 答え合わせ：まだ開いていない枠のヒントもすべて表示する（減点なし）
+    openAllHints(root,q);
+    const i=EV.indexOf(ev), pv=EV[i-1], nx=EV[i+1];
+    const w=$("#why");
+    w.innerHTML=`<div class="res ${ok?"ok":"ng"}">${ok?`◎ 正解！ ＋${got}点`:"× 正解は「"+"ABCD"[q.opts.indexOf(q.id)]+"」の枠　0点"}<span style="font-size:13px;color:var(--sub);font-weight:500">（ヒント${q.hUsed}つ使用）</span></div>
+     ${explain(q)}<div style="margin-top:6px;font-size:14px;color:var(--sub)">${pv?`直前：${pv.name}　`:""}${nx?`／ 直後：${nx.name}`:""}</div>
+     <div style="margin-top:6px;font-weight:700">得点 ${TQ.pts} / ${TQ.n*PT_MAX}　｜　${TQ.n} 問中 ${TQ.ok} 問正解　連続正解 ${TQ.streak}</div>
+     <button class="next" id="nx">次の問題へ →</button>`;
+    w.classList.add("show");
+    $("#nx").onclick=()=>go("timeQuiz");
+    w.scrollIntoView({behavior:"smooth",block:"nearest"});
+  });
+  const hb=root.querySelector(".hintbtn"), hs=root.querySelector(".hstat");
+  const upd=()=>{ hs.textContent=`この問題：${ptsFor(q)}点満点`; hb.textContent= q.hUsed<HINT_MAX?`💡 ${hintLabel(q)}（−1点）`:"💡 ヒントはここまで"; hb.disabled=q.hUsed>=HINT_MAX; };
+  hb.onclick=()=>{ if(!answered && revealHint(root,q)) upd(); };
+  upd();
+}
+
+/* ---------- 調査報告書 ---------- */
+function report(){
+  $("#hdr").textContent="調査報告書";
+  let html=`<div class="bar"><button class="back" onclick="go('practice')">← 練習メニュー</button></div><div class="report"><h2>先カンブリア時代 調査報告書</h2><div class="subt">46億年前 〜 5億3900万年前　／　できごと・証拠・補足</div>`;
+  let cur=null;
+  for(const e of EV){
+    if(e.era!==cur){cur=e.era; html+=`<div class="era-h" style="color:${ERA[cur].c}"><span style="background:${ERA[cur].c}">${cur}（${ERA[cur].r}）</span><i></i></div>`;}
+    html+=`<div class="entry"><div class="no">${e.id}</div>${ICON[e.icon]}<div><div class="nm">${e.name}<span class="ag">${e.age}</span>${solved.has(e.id)?'<span class="done">鑑定済</span>':""}</div><div class="ev">${e.evi}</div><div class="nt">${e.note}</div></div></div>`;
+  }
+  html+=`<div class="btns"><button class="btn primary" onclick="go('timeQuiz')">いつのできごと？に挑戦</button><button class="btn" onclick="go('practice')">練習メニュー</button></div>
+  <p class="note">教科書 地学基礎 p.156〜159（先カンブリア時代①②）より作成</p></div>`;
+  app.innerHTML=html;
+}
+
+/* ======================= 対戦モード =======================
+   問題プール30問 ＝ 証拠の鑑定（証拠→できごと）15問 ＋ いつのできごと？（年表）15問
+   対戦のたびに、プレイヤーごとに別々にランダムで3問を選ぶ
+   ヒント（年表の問題のみ）：押すと5秒間解答できない。次のヒントは押してから10秒後 */
+const POOL = [...EV.map(e=>({type:"e2i",id:e.id})), ...EV.map(e=>({type:"time",id:e.id}))];
+const BQ=3, LOCK=3, SHOW_OK=1500, HINT_LOCK=5000, HINT_CD=10000;
+let B=null;            // 対戦の状態
+const battleEl=$("#battle");
+function bLater(fn,ms){ const s=B&&B.sid; const t=setTimeout(()=>{ if(B&&B.sid===s) fn(); },ms); B.timers.push(t); return t; }
+function clearBattle(){ if(!B)return; B.timers.forEach(clearTimeout); clearInterval(B.clock); B.timers=[]; }
+function fmtT(ms){ const s=ms/1000; const m=Math.floor(s/60); return `${String(m).padStart(2,"0")}:${(s-m*60).toFixed(1).padStart(4,"0")}`; }
+
+function startBattle(){
+  clearBattle();
+  const pick3=()=>shuffle(POOL).slice(0,BQ).map(p=>buildQ(p.type,p.id));
+  B={sid:Math.random(),timers:[],t0:null,over:false,clock:null,
+     P:[1,2].map(no=>({no,name:"プレイヤー"+no,qs:pick3(),i:0,locked:false,busy:false,end:null,noAnsUntil:0,hintReadyAt:0}))};
+  document.body.classList.add("battling");
+  battleEl.innerHTML=`<div class="half h1"><div class="inner" id="in1"></div></div><div class="half h2"><div class="inner" id="in2"></div></div>`;
+  battleEl.classList.add("on");
+  for(const p of B.P){
+    p.inner=$("#in"+p.no);
+    p.inner.innerHTML=`<div class="bhead"><button class="bback">← 最初の画面へ</button><span class="pname">${p.name}</span><span class="dots"></span><span class="btime">00:00.0</span></div><div class="bbody compact"></div>`;
+    p.body=p.inner.querySelector(".bbody"); p.time=p.inner.querySelector(".btime"); p.dots=p.inner.querySelector(".dots");
+    p.inner.querySelector(".bback").onclick=exitBattle;
+    drawDots(p);
+  }
+  // カウントダウン（問題はまだ表示しない）
+  const steps=["3","2","1","スタート！"];
+  steps.forEach((s,k)=>bLater(()=>{ for(const p of B.P) p.body.innerHTML=`<div class="cd ${k===3?"go":""}">${s}</div>`; },k*900));
+  bLater(()=>{
+    for(const p of B.P) p.body.innerHTML="";   // カウントダウン要素を消す
+    B.t0=performance.now();
+    B.clock=setInterval(tick,100);
+    for(const p of B.P) showBQ(p);
+  },steps.length*900);
+}
+function drawDots(p){ p.dots.textContent="●".repeat(p.i)+"○".repeat(BQ-p.i); }
+function tick(){ if(!B||!B.t0)return; const now=performance.now(); for(const p of B.P){ p.time.textContent=fmtT((p.end||now)-B.t0); if(!B.over) hintUI(p,now); } }
+function hintUI(p,now){
+  const noAns=now<p.noAnsUntil;
+  p.body.classList.toggle("noans",noAns);
+  const hb=p.body.querySelector(".hintbtn"), hs=p.body.querySelector(".hstat"); if(!hb) return;
+  const q=p.qs[p.i], cd=now<p.hintReadyAt;
+  if(q.hUsed>=HINT_MAX){ hb.disabled=true; hb.textContent="💡 ヒント終了"; }
+  else if(cd){ hb.disabled=true; hb.textContent=`💡 あと${Math.ceil((p.hintReadyAt-now)/1000)}秒`; }
+  else { hb.disabled=false; hb.textContent= q.hUsed<2?"💡 ヒント1（前後）":"💡 ヒント2（証拠）"; }
+  hs.className="hstat"+(noAns?" lock":"");
+  hs.textContent= noAns?`🔒 解答禁止 ${Math.ceil((p.noAnsUntil-now)/1000)}秒`:"ヒント：5秒解答禁止";
+}
+function showBQ(p){
+  const q=p.qs[p.i];
+  renderQ(p.body,q,(id,btn)=>bPick(p,q,id,btn));
+  const hb=p.body.querySelector(".hintbtn");
+  if(hb) hb.onclick=()=>{
+    const now=performance.now();
+    if(B.over||p.locked||p.busy||now<p.hintReadyAt) return;
+    if(revealHint(p.body,q)){ p.noAnsUntil=now+HINT_LOCK; p.hintReadyAt=now+HINT_CD; hintUI(p,now); }
+  };
+  hintUI(p,performance.now());
+}
+function bPick(p,q,id,btn){
+  if(B.over||p.locked||p.busy||performance.now()<p.noAnsUntil) return;
+  if(isRight(q,id)){
+    p.i++; drawDots(p);
+    if(p.i>=BQ){ p.end=performance.now(); return finishBattle(p); }   // 3問目正解の瞬間に終了
+    p.busy=true; markRight(p.body,q);
+    p.body.insertAdjacentHTML("beforeend",`<div class="bov ok"><div class="bt">⭕ 正解！</div><div class="bx">${explain(q)}</div></div>`);
+    bLater(()=>{ p.busy=false; showBQ(p); },SHOW_OK);
+  }else{
+    p.locked=true; btn.classList.add("wrong"); btn.disabled=true;
+    const ov=document.createElement("div"); ov.className="bov ng";
+    let left=LOCK; ov.innerHTML=`<div class="bt">ミス！</div><div class="bx" style="font-size:4vmin;font-weight:900;color:var(--ng)">${left}秒ロック</div>`;
+    p.body.appendChild(ov);
+    for(let k=1;k<=LOCK;k++) bLater(()=>{ left=LOCK-k; if(left>0){ ov.querySelector(".bx").textContent=`${left}秒ロック`; } else { ov.remove(); p.locked=false; } },k*1000);
+  }
+}
+function finishBattle(win){
+  B.over=true; clearBattle(); tick();
+  const lose=B.P.find(p=>p!==win);
+  // 結果画面は、ここで新しく要素を作る
+  for(const p of B.P){
+    const w=p===win;
+    p.inner.innerHTML=`<div class="bres">${w
+      ?`<div class="big">🏆 勝利！</div><div class="sub">クリアタイム ${fmtT(p.end-B.t0)}</div>`
+      :`<div class="big lose">負け…</div><div class="sub">${p.i}問正解（${BQ}問中）</div>`}
+      <div class="rb"><button class="pri" data-a="again">もう一度</button><button data-a="menu">メニューへ</button></div></div>`;
+    p.inner.querySelector('[data-a="again"]').onclick=startBattle;
+    p.inner.querySelector('[data-a="menu"]').onclick=exitBattle;
+  }
+}
+function exitBattle(){
+  clearBattle(); B=null;
+  battleEl.classList.remove("on"); battleEl.innerHTML="";
+  document.body.classList.remove("battling");
+  go("menu");
+}
+
+menu();
+</script>
+</body>
+</html>
